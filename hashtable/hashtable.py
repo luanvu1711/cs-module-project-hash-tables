@@ -22,6 +22,11 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
+        if capacity < MIN_CAPACITY:
+            self.capacity = MIN_CAPACITY
+        else:
+            self.capacity = capacity
+        self.buckets = [None] * self.capacity
 
 
     def get_num_slots(self):
@@ -35,7 +40,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        return len(self.buckets)
 
     def get_load_factor(self):
         """
@@ -63,13 +68,21 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+        hash = 5381
+        key_bytes = key.encode()
 
+        for byte in key_bytes:
+        # the modulus keeps it 32-bit, python ints don't overflow
+            hash = ((hash << 5) + hash) + byte
+
+        return hash
 
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
+        
         #return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
@@ -82,6 +95,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        idx = self.hash_index(key)
+        self.buckets[idx] = value
 
 
     def delete(self, key):
@@ -93,7 +108,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        idx = self.hash_index(key)
+        self.buckets[idx] = None
 
     def get(self, key):
         """
@@ -104,7 +120,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        idx = self.hash_index(key)
+        return self.buckets[idx]
 
     def resize(self, new_capacity):
         """
@@ -151,3 +168,7 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
+
+
+# https://brilliant.org/wiki/hash-tables/
+# https://github.com/Ravenha/cs-module-project-hash-tables/blob/master/hashtable/hashtable.py
