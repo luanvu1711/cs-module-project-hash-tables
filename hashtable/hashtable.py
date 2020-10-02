@@ -96,6 +96,8 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
+        if self.buckets[idx] is not None:
+            print("WARNING!!! You are overwritting an index")
         self.buckets[idx] = value
 
 
@@ -170,5 +172,3 @@ if __name__ == "__main__":
     print("")
 
 
-# https://brilliant.org/wiki/hash-tables/
-# https://github.com/Ravenha/cs-module-project-hash-tables/blob/master/hashtable/hashtable.py
