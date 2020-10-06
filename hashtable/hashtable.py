@@ -1,5 +1,3 @@
-import sys
-sys.path.append('../hashtable/linked_list')
 from linked_list import LinkedList
 
 class HashTableEntry:
